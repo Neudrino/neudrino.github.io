@@ -18,10 +18,10 @@ title: Event Calendars
     var calendar = new FullCalendar.Calendar(calendarEl, {
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         initialView: 'dayGridMonth',
-        events: {
-            url: 'https://www.gov.uk/bank-holidays/england-and-wales.ics',
-            format: 'ics' // important!
-        }
+        //events: {
+        //    url: 'https://www.calendarlabs.com/ical-calendar/ics/75/UK_Holidays.ics',
+        //    format: 'ics' // important!
+        //}
       });
     calendar.render();
     });
