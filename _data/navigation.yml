@@ -1,4 +1,6 @@
 main:
+  - title: "Calendar"
+    url: /calendar/
   - title: "Posts"
     url: /posts/
   - title: "Categories"
