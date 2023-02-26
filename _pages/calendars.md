@@ -19,7 +19,7 @@ title: Event Calendars
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         initialView: 'dayGridMonth',
         events: {
-            url: 'https://www.gov.uk/bank-holidays/england-and-wales.ics',
+            url: 'boogie-baeren.ics',
             format: 'ics' // important!
         }
       });
