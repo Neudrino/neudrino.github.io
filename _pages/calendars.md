@@ -1,6 +1,6 @@
 ---
-permalink: /calendar/
-title: Event Calendar
+permalink: /calendars/
+title: Event Calendars
 ---
 
 <script src="https://cdn.jsdelivr.net/npm/ical.js@1.5.0/build/ical.min.js"></script>
@@ -14,7 +14,7 @@ title: Event Calendar
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         initialView: 'dayGridMonth',
         events: {
-            url: 'calendars/boogie-baeren.ics',
+            url: 'boogie-baeren.ics',
             format: 'ics' // important!
         }
       });
