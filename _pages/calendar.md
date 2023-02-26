@@ -3,10 +3,7 @@ permalink: /calendar/
 title: Event Calendar
 ---
 
-
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.4/index.global.min.js" integrity="sha256-ZraR3q2Tudjvaiz6AUCr8pWkjOb+DGzPfa+fyVIRSE4=" crossorigin="anonymous"></script>
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.4/index.global.min.js'></script>
-<script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js" integrity="sha256-z82jYOK/utiAteR0z6FjIOQmdWzvxqXJ6wsXbGJkBwY=" crossorigin="anonymous"></script>
 
     document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
