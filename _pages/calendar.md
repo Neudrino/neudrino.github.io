@@ -3,24 +3,19 @@ permalink: /calendar/
 title: Event Calendar
 ---
 
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/scripts/moment.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.js"></script>
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.css">
-<link rel="stylesheet" media="print" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.print.css">
 
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.4/index.global.min.js" integrity="sha256-ZraR3q2Tudjvaiz6AUCr8pWkjOb+DGzPfa+fyVIRSE4=" crossorigin="anonymous"></script>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.4/index.global.min.js'></script>
 <script>
-$(document).ready(function() {
 
-	$('#calendar').fullCalendar({
-        plugins: [dayGridPlugin, iCalendarPlugin],
-        events: {
-            url: 'calendars/boogie-baeren.ics',
-            format: 'ics'
-        }
-	})
+    document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'resourceTimelineWeek',
+    });
+    calendar.render();
+    });
 
-});
 </script>
 
 <div id="calendar"></div>
