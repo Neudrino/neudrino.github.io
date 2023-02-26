@@ -12,10 +12,6 @@ title: Event Calendar
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-        plugins: [
-            iCalendarPlugin,
-            dayGridPlugin
-        ],
         initialView: 'dayGridMonth',
         events: {
             url: 'calendars/boogie-baeren.ics',
