@@ -11,8 +11,6 @@ title: Event Calendars
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/icalendar@6.1.4/index.global.min.js" crossorigin="anonymous"></script>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.4/main.min.css">
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
