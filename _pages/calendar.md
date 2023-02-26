@@ -9,6 +9,7 @@ title: Event Calendar
     document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
+        schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives'
         plugins: [
             iCalendarPlugin,
             dayGridPlugin
