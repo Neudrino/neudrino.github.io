@@ -19,12 +19,16 @@ title: Event Calendars
         initialView: 'dayGridMonth',
         events: {
             url: 'boogie-baeren.ics',
-            format: 'ics' // important!
+            format: 'ics'
         }
       });
     calendar.render();
     });
 
 </script>
+
+# BB Kalender Titel
+
+[Boogie-Bären Kalender iCalendar](../calendars/boogie-baeren.ics)
 
 <div id="calendar"></div>
