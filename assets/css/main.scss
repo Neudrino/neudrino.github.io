@@ -5,16 +5,13 @@ search: false
 
 @charset "utf-8";
 
-// custom settings start
-$background-color: green;
-// custom settings end
+// overwrite SCSS variable here
+//$background-color: orange;
 
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
 
-// custom settings start
+// overwrite CSS styles here
 table {
     display: table;
-    background-color: red;
 }
-// custom settings end
