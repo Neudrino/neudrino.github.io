@@ -6,7 +6,10 @@ search: false
 @charset "utf-8";
 
 // overwrite SCSS variable here
-//$background-color: orange;
+$max-width: unset;
+$right-sidebar-width-narrow: 1em;
+$right-sidebar-width: 1em;
+$right-sidebar-width-wide: unset;
 
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
