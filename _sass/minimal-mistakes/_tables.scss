@@ -2,7 +2,7 @@
    TABLES
    ========================================================================== */
 
-table {
+   table {
     display: block;
     margin-bottom: 1em;
     width: 100%;
@@ -12,29 +12,29 @@ table {
     overflow-x: auto;
     background-color: red;
 
-    &+table {
-        margin-top: 1em;
+    & + table {
+      margin-top: 1em;
     }
-}
+  }
 
-thead {
+  thead {
     background-color: $border-color;
     border-bottom: 2px solid mix(#000, $border-color, 25%);
-}
+  }
 
-th {
+  th {
     padding: 0.5em;
     font-weight: bold;
     text-align: left;
-}
+  }
 
-td {
+  td {
     padding: 0.5em;
     border-bottom: 1px solid mix(#000, $border-color, 25%);
-}
+  }
 
-tr,
-td,
-th {
+  tr,
+  td,
+  th {
     vertical-align: middle;
-}
+  }
