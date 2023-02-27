@@ -8,9 +8,10 @@ search: false
 // overwrite SCSS variable here
 $max-width: unset;
 
-$right-sidebar-width-narrow: 1em;
-$right-sidebar-width: 1em;
-$right-sidebar-width-wide: 1em;
+// BUG: this is also the width of the left sidebar
+//$right-sidebar-width-narrow: 1em;
+//$right-sidebar-width: 1em;
+//$right-sidebar-width-wide: 1em;
 
 // predefined code
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
