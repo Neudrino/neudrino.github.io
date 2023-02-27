@@ -11,6 +11,7 @@ $right-sidebar-width-narrow: 1em;
 $right-sidebar-width: 1em;
 $right-sidebar-width-wide: unset;
 
+// predefined code
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
 
