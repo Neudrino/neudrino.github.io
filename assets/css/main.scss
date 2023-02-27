@@ -6,7 +6,7 @@ search: false
 @charset "utf-8";
 
 // custom settings start
-$background-color: red;
+
 // custom settings end
 
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
