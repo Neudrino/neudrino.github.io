@@ -7,10 +7,13 @@ search: false
 
 // custom settings start
 $background-color: green;
-table {
-    $background-color: red;
-}
 // custom settings end
 
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
+
+// custom settings start
+table {
+    background-color: red;
+}
+// custom settings end
