@@ -6,8 +6,9 @@ search: false
 @charset "utf-8";
 
 // custom settings start
+$background-color: green;
 table {
-    background-color: red;
+    $background-color: red;
 }
 // custom settings end
 
