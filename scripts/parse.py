@@ -1,12 +1,16 @@
 
+import os
 import re
 import requests
 import xml.etree.ElementTree as ET
 from icalendar import Calendar, Event
 from datetime import datetime
+from urllib.parse import urlparse
 
 url = 'https://www.boogie-baeren.de/share/events-rss-feed.xml'
-
+scriptDir = os.path.dirname(os.path.abspath(__file__))
+icsFileName = urlparse(url).netloc
+icsFilePathFull = "{}/../calendars/{}.ics".format(scriptDir, icsFileName)
 
 def loadRss(url):
     response = requests.get(url)
@@ -30,8 +34,8 @@ def parseXml(xml):
 def parseTitle(title):
     # element = re.findall(r"^(\d{2}[.]\d{2}[.]\d{4}) (.*) [|-] (.*)", title)
     element = re.findall(r"^(\d{2}[.]\d{2}[.]\d{4})(.*)", title)
-    print(f"{0}".format(element[0][0]))
-    print(element)
+    # print("{}".format(element[0][0]))
+    # print(element)
 
     return element[0]
 
@@ -44,7 +48,7 @@ def createIcs(calendarItems):
     for item in calendarItems:
         event = Event()
         event.add('dtstart', datetime.strptime(item[0], '%d.%m.%Y').date())
-        event.add('summary', item[1])
+        event.add('sumcreateIcsmary', item[1])
 
         calendar.add_component(event)
     return calendar
@@ -57,14 +61,15 @@ def display(cal):
 def writeToDisk(calendar, filename):
     with open(filename, 'w', encoding="utf-8") as f:
         f.write(display(calendar))
-    print(display(calendar))
+    # print(display(calendar))
 
 
 def main(url):
     xml = loadRss(url)
     calendarItems = parseXml(xml)
     calendar = createIcs(calendarItems)
-    writeToDisk(calendar, '../calendars/boogie-baeren.ics')
+    # print(calendar)
+    writeToDisk(calendar, icsFilePathFull)
 
 
 if __name__ == "__main__":
