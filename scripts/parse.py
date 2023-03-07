@@ -15,6 +15,7 @@ icsFileName = urlparse(url).netloc
 icsFilePathFull = "{}/../calendars/{}.ics".format(scriptDir, icsFileName)
 
 LOG_NUMBER_WIDTH = 4
+VERBOSE = os.getenv('VERBOSE') or False
 
 
 def getCalendarLength(calendar):
@@ -26,8 +27,15 @@ def display(cal):
 
 
 def loadExitingCalendar(icsFilePathFull):
-    with open(icsFilePathFull, encoding="utf-8") as f:
-        calendarData = Calendar.from_ical(f.read())
+    if not os.path.exists(icsFilePathFull):
+        with open(icsFilePathFull, "x"):
+            print(f"Created {icsFilePathFull}")
+
+    with open(icsFilePathFull, 'r', encoding="utf-8") as f:
+        try:
+            calendarData = Calendar.from_ical(f.read())
+        except:
+            calendarData = Calendar()
 
     print(f"{getCalendarLength(calendarData):{LOG_NUMBER_WIDTH}} Events existed previously")
 
@@ -106,7 +114,7 @@ def createIcs(oldCalendarItems, newCalendarItems):
         uid = item['uid'][40:]
 
         if uid in display(calendar):
-            print(f"{' ': >{LOG_NUMBER_WIDTH+1}}Item exists: {uid}")
+            VERBOSE and print(f"{' ': >{LOG_NUMBER_WIDTH+1}}Item exists: {uid}")
             continue
 
         event = Event()
@@ -134,7 +142,7 @@ def createIcs(oldCalendarItems, newCalendarItems):
         event.add('uid', uid)
 
         calendar.add_component(event)
-        print(f"{' ': >{LOG_NUMBER_WIDTH+1}}Item added:  {uid}")
+        VERBOSE and print(f"{' ': >{LOG_NUMBER_WIDTH+1}}Item added:  {uid}")
 
     print(f"{getCalendarLength(calendar):{LOG_NUMBER_WIDTH}} Events in total")
 
