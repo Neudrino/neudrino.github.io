@@ -29,6 +29,6 @@ title: Event Calendars
 
 # BB Kalender Titel
 
-[Boogie-Bären Kalender iCalendar](../calendars/boogie-baeren.ics)
+[Boogie-Bären Kalender iCalendar](../calendars/www.boogie-baeren.de.ics)
 
 <div id="calendar"></div>
