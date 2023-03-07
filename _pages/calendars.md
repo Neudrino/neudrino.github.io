@@ -18,7 +18,7 @@ title: Event Calendars
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         initialView: 'dayGridMonth',
         events: {
-            url: 'boogie-baeren.ics',
+            url: 'www.boogie-baeren.de.ics',
             format: 'ics'
         }
       });
