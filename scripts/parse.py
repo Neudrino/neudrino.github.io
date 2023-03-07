@@ -7,6 +7,8 @@ from icalendar import Calendar, Event
 from datetime import datetime
 from urllib.parse import urlparse
 
+import pyparsing as pp
+
 url = 'https://www.boogie-baeren.de/share/events-rss-feed.xml'
 scriptDir = os.path.dirname(os.path.abspath(__file__))
 icsFileName = urlparse(url).netloc
@@ -32,19 +34,26 @@ def loadExitingCalendar(icsFilePathFull):
     return calendarData
 
 
-def loadRss(url):
+def getFromUrl(url):
     response = requests.get(url)
     return response.content
 
 
-def parseXml(xml):
+def parseXml(url):
+    xml = getFromUrl(url)
+
     rootElement = ET.fromstring(xml)
     events = []
-    
+
     for item in rootElement.findall('./channel/item'):
         events.append(
-            parseTitle(item.find('title').text)
+            {
+                "title": parseTitle(item.find('title').text),
+                "uid": item.find('link').text,
+            }
         )
+        # content = getFromUrl(item.find('link').text)
+        # print(f"{item.find('title').text}")
     print(f"{len(events):{LOG_NUMBER_WIDTH}} Events to be added")
 
     return events
@@ -52,22 +61,80 @@ def parseXml(xml):
 
 def parseTitle(title):
     # element = re.findall(r"^(\d{2}[.]\d{2}[.]\d{4}) (.*) [|-] (.*)", title)
-    element = re.findall(r"^(\d{2}[.]\d{2}[.]\d{4})(.*)", title)
+    # element = re.findall(r"^(\d{2}[.]\d{2}[.]\d{4})(.*)", title)
     # print("{}".format(element[0][0]))
-    print(element)
+    # print(element)
+    # print(title)
 
-    return element[0]
+    # title = '10.03.2023 Hot Friday #25 | Altmünchner Gesellenhaus'
+
+    colon = pp.Suppress(':')
+    dot = pp.Suppress('.')
+    dash = pp.oneOf('- –')
+    bracket = pp.Suppress(pp.oneOf('( )'))
+
+    date = pp.Word(pp.nums, exact=2) + dot + pp.Word(pp.nums,
+                                                     exact=2) + dot + pp.Word(pp.nums, exact=4)
+    startDate = date('startDate')
+    dateRange = date('startDate') + dash + date('endDate')
+
+    time = pp.Word(pp.nums, exact=2) + colon + pp.Word(pp.nums, exact=2)
+    timeRange = time('startTime') + dash + time('endTime')
+    timeAddition = bracket + timeRange + bracket
+
+    text = pp.OneOrMore(pp.Word(pp.identbodychars + pp.printables))
+
+    titleGrammar = (dateRange | startDate)('date') + \
+        pp.Opt(timeAddition)('time') + text('summary')
+
+    result = pp.ParseResults(titleGrammar.parse_string(title))
+
+    # print(f"{result}")
+
+    return result
 
 
 def createIcs(oldCalendarItems, newCalendarItems):
     calendar = oldCalendarItems
+    calendar['prodid'] = 'BoogieBären-Kalendar'
+    calendar['version'] = '1.0'
+
+    # print(calendar)
 
     for item in newCalendarItems:
+        titleDescription = item['title']
+        uid = item['uid'][40:]
+
+        if uid in display(calendar):
+            print(f"{' ': >{LOG_NUMBER_WIDTH+1}}Item exists: {uid}")
+            continue
+
         event = Event()
-        event.add('dtstart', datetime.strptime(item[0], '%d.%m.%Y').date())
-        event.add('summary', item[1])
+
+        if titleDescription.startTime:
+            startTime = f"T{':'.join(titleDescription.startTime)}"
+            startDate = '.'.join(titleDescription.startDate)
+            event.add('dtstart', datetime.strptime(
+                startDate + startTime, '%d.%m.%YT%H:%M'))
+        else:
+            event.add('dtstart', datetime.strptime(
+                '.'.join(titleDescription.startDate), '%d.%m.%Y').date())
+
+        endDate = '.'.join(
+            titleDescription.endDate or titleDescription.startDate)
+        if titleDescription.endTime:
+            endTime = f"T{':'.join(titleDescription.endTime)}"
+            event.add('dtend', datetime.strptime(
+                endDate + endTime, '%d.%m.%YT%H:%M'))
+        else:
+            event.add('dtend', datetime.strptime(endDate, '%d.%m.%Y').date())
+
+        event.add('summary', ' '.join(titleDescription.summary))
+
+        event.add('uid', uid)
 
         calendar.add_component(event)
+        print(f"{' ': >{LOG_NUMBER_WIDTH+1}}Item added:  {uid}")
 
     print(f"{getCalendarLength(calendar):{LOG_NUMBER_WIDTH}} Events in total")
 
@@ -84,11 +151,10 @@ def main(url):
     oldCalendarItems = loadExitingCalendar(icsFilePathFull)
     # print(display(oldCalendarItems))
 
-    xml = loadRss(url)
-    newCalendarItems = parseXml(xml)
+    newCalendarItems = parseXml(url)
     calendar = createIcs(oldCalendarItems, newCalendarItems)
 
-    # writeToDisk(calendar, icsFilePathFull)
+    writeToDisk(calendar, icsFilePathFull)
 
 
 if __name__ == "__main__":
