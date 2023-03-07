@@ -1,6 +1,5 @@
 
 import os
-import re
 import requests
 import xml.etree.ElementTree as ET
 from icalendar import Calendar, Event
