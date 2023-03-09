@@ -17,6 +17,11 @@ title: Event Calendars
     var calendar = new FullCalendar.Calendar(calendarEl, {
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         initialView: 'dayGridMonth',
+        headerToolbar: {
+            left: 'prev,next',
+            center: 'title',
+            right: 'today,dayGridMonth,dayGridYear,listYear'
+        },
         events: {
             url: 'www.boogie-baeren.de.ics',
             format: 'ics'
