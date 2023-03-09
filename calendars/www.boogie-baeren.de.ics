@@ -1,16 +1,22 @@
 BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:BB-Calendar
+VERSION:1.0
+PRODID:BoogieBären-Kalendar
 BEGIN:VEVENT
+SUMMARY:Hot Friday #25 | Altmünchner Gesellenhaus
 DTSTART;VALUE=DATE:20230310
-SUMMARY: Hot Friday #25 | Altmünchner Gesellenhaus
+DTEND;VALUE=DATE:20230310
+UID:hot-friday-25.html
 END:VEVENT
 BEGIN:VEVENT
+SUMMARY:Swing & Boogie Übungsabend #3
 DTSTART;VALUE=DATE:20230318
-SUMMARY: Swing & Boogie Übungsabend #3
+DTEND;VALUE=DATE:20230318
+UID:swing-boogie-uebungsabend-3-23.html
 END:VEVENT
 BEGIN:VEVENT
+SUMMARY:Blues Workshop mit Oksana und Eran
 DTSTART;VALUE=DATE:20230319
-SUMMARY: Blues Workshop mit Oksana und Eran
+DTEND;VALUE=DATE:20230319
+UID:blues-oksana-eran.html
 END:VEVENT
 END:VCALENDAR
