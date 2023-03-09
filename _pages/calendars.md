@@ -16,13 +16,7 @@ title: Event Calendars
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-        plugins: [ dayGridPlugin, listPlugin, timeGridPlugin ],
-        initialView: 'listYear',
-        headerToolbar: {
-            left: 'prev,next',
-            center: 'title',
-            right: 'timeGridDay,timeGridWeek,dayGridDay,dayGridWeek,dayGridMonth,listDay,listWeek,listMonth,listYear'
-        },
+        initialView: 'dayGridMonth',
         events: {
             url: 'www.boogie-baeren.de.ics',
             format: 'ics'
