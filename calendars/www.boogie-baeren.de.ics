@@ -1,22 +1,25 @@
 BEGIN:VCALENDAR
-VERSION:1.0
-PRODID:BoogieBären-Kalendar
+VERSION:2.0
+PRODID:ics.py - http://git.io/lLljaA
 BEGIN:VEVENT
-SUMMARY:Hot Friday #25 | Altmünchner Gesellenhaus
-DTSTART;VALUE=DATE:20230310
-DTEND;VALUE=DATE:20230310
-UID:hot-friday-25.html
+DTSTART;VALUE=DATE:20230422
+DTEND;VALUE=DATE:20230423
+SUMMARY:Tanzwerkstatt 2023
+UID:https://www.boogie-baeren.de/eventleser/tanzwerkstatt2023.html
+URL:https://www.boogie-baeren.de/eventleser/tanzwerkstatt2023.html
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Swing & Boogie Übungsabend #3
-DTSTART;VALUE=DATE:20230318
-DTEND;VALUE=DATE:20230318
-UID:swing-boogie-uebungsabend-3-23.html
-END:VEVENT
-BEGIN:VEVENT
-SUMMARY:Blues Workshop mit Oksana und Eran
 DTSTART;VALUE=DATE:20230319
 DTEND;VALUE=DATE:20230319
-UID:blues-oksana-eran.html
+SUMMARY:Blues Workshop mit Oksana und Eran
+UID:https://www.boogie-baeren.de/eventleser/blues-oksana-eran.html
+URL:https://www.boogie-baeren.de/eventleser/blues-oksana-eran.html
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20230406T210000Z
+DTSTART:20230406T180000Z
+SUMMARY:ZAP - Übungsabend
+UID:https://www.boogie-baeren.de/eventleser/zap-uebungsabend-7.html
+URL:https://www.boogie-baeren.de/eventleser/zap-uebungsabend-7.html
 END:VEVENT
 END:VCALENDAR
