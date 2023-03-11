@@ -56,11 +56,12 @@ def parseXml(url):
         events.append(
             {
                 "title": parseTitle(item.find('title').text),
-                "uid": item.find('link').text,
+                "description": item.find('description').text,
+                "uid": item.find('guid').text,
+                "url": item.find('link').text,
             }
         )
-        # content = getFromUrl(item.find('link').text)
-        # print(f"{item.find('title').text}")
+
     print(f"{len(events):{LOG_NUMBER_WIDTH}} Events to be added")
 
     return events
@@ -80,8 +81,7 @@ def parseTitle(title):
     dash = pp.oneOf('- –')
     bracket = pp.Suppress(pp.oneOf('( )'))
 
-    date = pp.Word(pp.nums, exact=2) + dot + pp.Word(pp.nums,
-                                                     exact=2) + dot + pp.Word(pp.nums, exact=4)
+    date = pp.Word(pp.nums, exact=2) + dot + pp.Word(pp.nums, exact=2) + dot + pp.Word(pp.nums, exact=4)
     startDate = date('startDate')
     dateRange = date('startDate') + dash + date('endDate')
 
@@ -110,7 +110,9 @@ def createIcs(oldCalendarItems, newCalendarItems):
 
     for item in newCalendarItems:
         titleDescription = item['title']
-        uid = item['uid'][40:]
+        description = item['description']
+        uid = item['uid']#[40:]
+        url = item['url']
 
         if uid in display(calendar):
             VERBOSE and print(f"{' ': >{LOG_NUMBER_WIDTH+1}}Item exists: {uid}")
@@ -139,6 +141,7 @@ def createIcs(oldCalendarItems, newCalendarItems):
         event.add('summary', ' '.join(titleDescription.summary))
 
         event.add('uid', uid)
+        event.add('url', url)
 
         calendar.add_component(event)
         VERBOSE and print(f"{' ': >{LOG_NUMBER_WIDTH+1}}Item added:  {uid}")
