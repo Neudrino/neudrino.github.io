@@ -2,7 +2,7 @@
 import os
 import requests
 import xml.etree.ElementTree as ET
-from icalendar import Calendar, Event
+from ics import Calendar, Event
 from datetime import datetime
 from urllib.parse import urlparse
 
@@ -17,14 +17,6 @@ LOG_NUMBER_WIDTH = 4
 VERBOSE = os.getenv('VERBOSE') or False
 
 
-def getCalendarLength(calendar):
-    return len(calendar.subcomponents)
-
-
-def display(cal):
-    return cal.to_ical().decode("utf-8").replace('\r\n', '\n').strip()
-
-
 def loadExitingCalendar(icsFilePathFull):
     if not os.path.exists(icsFilePathFull):
         with open(icsFilePathFull, "x"):
@@ -32,11 +24,11 @@ def loadExitingCalendar(icsFilePathFull):
 
     with open(icsFilePathFull, 'r', encoding="utf-8") as f:
         try:
-            calendarData = Calendar.from_ical(f.read())
+            calendarData = Calendar(f.read())
         except:
             calendarData = Calendar()
 
-    print(f"{getCalendarLength(calendarData):{LOG_NUMBER_WIDTH}} Events existed previously")
+    print(f"{len(calendarData.events):{LOG_NUMBER_WIDTH}} Events existed previously")
 
     return calendarData
 
@@ -68,13 +60,9 @@ def parseXml(url):
 
 
 def parseTitle(title):
-    # element = re.findall(r"^(\d{2}[.]\d{2}[.]\d{4}) (.*) [|-] (.*)", title)
-    # element = re.findall(r"^(\d{2}[.]\d{2}[.]\d{4})(.*)", title)
-    # print("{}".format(element[0][0]))
-    # print(element)
-    # print(title)
-
-    # title = '10.03.2023 Hot Friday #25 | Altmünchner Gesellenhaus'
+    """
+    title = '10.03.2023 Hot Friday #25 | Altmünchner Gesellenhaus'
+    """
 
     colon = pp.Suppress(':')
     dot = pp.Suppress('.')
@@ -103,10 +91,6 @@ def parseTitle(title):
 
 def createIcs(oldCalendarItems, newCalendarItems):
     calendar = oldCalendarItems
-    calendar['prodid'] = 'BoogieBären-Kalendar'
-    calendar['version'] = '1.0'
-
-    # print(calendar)
 
     for item in newCalendarItems:
         titleDescription = item['title']
@@ -114,7 +98,7 @@ def createIcs(oldCalendarItems, newCalendarItems):
         uid = item['uid']#[40:]
         url = item['url']
 
-        if uid in display(calendar):
+        if uid in calendar.serialize():
             VERBOSE and print(f"{' ': >{LOG_NUMBER_WIDTH+1}}Item exists: {uid}")
             continue
 
@@ -123,44 +107,42 @@ def createIcs(oldCalendarItems, newCalendarItems):
         if titleDescription.startTime:
             startTime = f"T{':'.join(titleDescription.startTime)}"
             startDate = '.'.join(titleDescription.startDate)
-            event.add('dtstart', datetime.strptime(
-                startDate + startTime, '%d.%m.%YT%H:%M'))
+            event.begin = datetime.strptime(
+                startDate + startTime, '%d.%m.%YT%H:%M').astimezone()
         else:
-            event.add('dtstart', datetime.strptime(
-                '.'.join(titleDescription.startDate), '%d.%m.%Y').date())
+            event.begin = datetime.strptime(
+                '.'.join(titleDescription.startDate), '%d.%m.%Y').date()
+            event.make_all_day()
 
         endDate = '.'.join(
             titleDescription.endDate or titleDescription.startDate)
         if titleDescription.endTime:
             endTime = f"T{':'.join(titleDescription.endTime)}"
-            event.add('dtend', datetime.strptime(
-                endDate + endTime, '%d.%m.%YT%H:%M'))
+            event.end = datetime.strptime(
+                endDate + endTime, '%d.%m.%YT%H:%M').astimezone()
         else:
-            event.add('dtend', datetime.strptime(endDate, '%d.%m.%Y').date())
+            event.end = datetime.strptime(endDate, '%d.%m.%Y').date()
 
-        event.add('summary', ' '.join(titleDescription.summary))
+        event.name = ' '.join(titleDescription.summary)
 
-        event.add('uid', uid)
-        event.add('url', url)
+        event.uid = uid
+        event.url = url
 
-        calendar.add_component(event)
+        calendar.events.add(event)
         VERBOSE and print(f"{' ': >{LOG_NUMBER_WIDTH+1}}Item added:  {uid}")
 
-    print(f"{getCalendarLength(calendar):{LOG_NUMBER_WIDTH}} Events in total")
+    print(f"{len(calendar.events):{LOG_NUMBER_WIDTH}} Events in total")
 
     return calendar
 
 
 def writeToDisk(calendar, filename):
     with open(filename, 'w', encoding="utf-8") as f:
-        f.write(display(calendar))
-    # print(display(calendar))
+        f.write(calendar.serialize())
 
 
 def main(url):
     oldCalendarItems = loadExitingCalendar(icsFilePathFull)
-    # print(display(oldCalendarItems))
-
     newCalendarItems = parseXml(url)
     calendar = createIcs(oldCalendarItems, newCalendarItems)
 
